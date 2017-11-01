@@ -1,0 +1,22 @@
+version: "3.1"
+
+services:
+  plex:
+    image: linuxserver/plex:latest
+    ports:
+      - "32400:32400"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+          - "node.role == manager"
+    volumes:
+      - /data/plex/config:/config
+      - /data/plex/transcode:/transcode
+      - /home/plex:/data
+    environment:
+      - HOSTNAME=tea
+      - PUID=1001
+      - PGID=1001
+      - ALLOWED_NETWORKS="192.168.2.0/255"
